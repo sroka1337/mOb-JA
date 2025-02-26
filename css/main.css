@@ -23,7 +23,10 @@ html {
   font-feature-settings: normal;
 }
 body {
-  margin: 0;
+    overflow: hidden;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   line-height: inherit;
 }
 hr {

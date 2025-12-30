@@ -166,31 +166,8 @@ html{
     font-family: "Poppins", sans-serif;
 }
 
-html {
-    background-color: white;
-    height: 100%;
-    height: -webkit-fill-available;
-    margin: 0;
-    padding: 0;
-    /* Extend background behind status bar */
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-}
-
 body{
     background-color: white;
-    min-height: 100vh;
-    min-height: -webkit-fill-available;
-    margin: 0;
-    padding: 0;
-    /* Push content down but background extends behind status bar */
-    padding-top: env(safe-area-inset-top);
-    position: relative;
-    width: 100%;
 }
 
 .go{

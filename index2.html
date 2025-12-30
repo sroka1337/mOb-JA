@@ -29,8 +29,34 @@
 
     <!-- Rejestracja Service Workera -->
     <script>
+        // Check if configuration exists, if not redirect to configurator
+        function checkConfiguration() {
+            const requiredFields = [
+                "name", "surname", "sex", "nationality", "birthday", "pesel",
+                "familyName", "fathersFamilyName", "mothersFamilyName", "birthPlace",
+                "adress1", "adress2", "city", "checkInDate"
+            ];
+            
+            const photo = localStorage.getItem("photo");
+            if (!photo) {
+                window.location.href = "./index.html";
+                return;
+            }
+            
+            for (let fieldId of requiredFields) {
+                const value = localStorage.getItem(fieldId);
+                if (!value || value.trim() === "") {
+                    window.location.href = "./index.html";
+                    return;
+                }
+            }
+        }
+        
+        // Check configuration on page load
+        checkConfiguration();
+        
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('assets/sw.js')
+            navigator.serviceWorker.register('./assets/sw.js')
                 .then(registration => console.log('Service Worker zarejestrowany:', registration))
                 .catch(error => console.error('Błąd rejestracji Service Workera:', error));
         }

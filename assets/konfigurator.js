@@ -30,7 +30,7 @@ function initConfigurator() {
     // Check if configuration is already complete and redirect if so
     // This check happens after DOM is ready to ensure smooth redirect
     if (checkExistingConfiguration()) {
-        window.location.href = "index2.html";
+        window.location.href = "./index2.html";
         return; // Exit early - don't execute rest of code
     }
 
@@ -144,7 +144,7 @@ function isEmpty(value){
 
 function forwardToId(){
 
-   location.href = "index2.html";
+   location.href = "./index2.html";
 
 }
 

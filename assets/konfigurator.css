@@ -166,30 +166,8 @@ html{
     font-family: "Poppins", sans-serif;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-html {
-    background-color: white;
-    margin: 0;
-    padding: 0;
-    height: 100%;
-}
-
 body{
     background-color: white;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    height: 100%;
-    /* Handle safe area insets for iPhone notch/home indicator */
-    padding-top: max(0px, env(safe-area-inset-top));
-    padding-bottom: max(0px, env(safe-area-inset-bottom));
-    padding-left: max(0px, env(safe-area-inset-left));
-    padding-right: max(0px, env(safe-area-inset-right));
-    overflow-x: hidden;
 }
 
 .go{
@@ -209,10 +187,6 @@ body{
     margin-bottom: 20px;
     text-align: center;
     line-height: 50px;
-    text-decoration: none;
-    color: var(--main-color);
-    border: none;
-    -webkit-tap-highlight-color: transparent;
 }
 
 .go:hover{

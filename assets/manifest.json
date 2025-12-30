@@ -1,8 +1,7 @@
 {
     "name": "mObywatel",
     "short_name": "mObywatel",
-    "start_url": "./index.html",
-    "scope": "./",
+    "start_url": "/index2.html",
     "display": "standalone",
     "background_color": "#fff",
     "description": "Aplikacja demonstracyjna",

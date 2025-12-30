@@ -2,9 +2,9 @@
 <html lang="pl">
 <head>
 	<meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">    
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">    
 	<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>mObywatel 2.0</title>
     <link rel="shortcut icon" href="assets/mObywatel/mobywatellogo.svg" type="image/x-icon">
     <meta name="theme-color" content="#fff">
@@ -29,34 +29,8 @@
 
     <!-- Rejestracja Service Workera -->
     <script>
-        // Check if configuration exists, if not redirect to configurator
-        function checkConfiguration() {
-            const requiredFields = [
-                "name", "surname", "sex", "nationality", "birthday", "pesel",
-                "familyName", "fathersFamilyName", "mothersFamilyName", "birthPlace",
-                "adress1", "adress2", "city", "checkInDate"
-            ];
-            
-            const photo = localStorage.getItem("photo");
-            if (!photo) {
-                window.location.href = "./index.html";
-                return;
-            }
-            
-            for (let fieldId of requiredFields) {
-                const value = localStorage.getItem(fieldId);
-                if (!value || value.trim() === "") {
-                    window.location.href = "./index.html";
-                    return;
-                }
-            }
-        }
-        
-        // Check configuration on page load
-        checkConfiguration();
-        
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('./assets/sw.js')
+            navigator.serviceWorker.register('assets/sw.js')
                 .then(registration => console.log('Service Worker zarejestrowany:', registration))
                 .catch(error => console.error('Błąd rejestracji Service Workera:', error));
         }

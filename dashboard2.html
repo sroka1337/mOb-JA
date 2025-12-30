@@ -18,6 +18,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
     <link rel="manifest" href="assets/manifest.json">
 
@@ -128,6 +129,14 @@
             background: #f5f6fb;
             color: #131419;
         }
+html {
+    background-color: #F4F5FA;
+    /* Extend background to cover status bar area on iPhone */
+    padding-top: env(safe-area-inset-top);
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+
 body {
     background-color: #F4F5FA;
     font-family: 'SF Pro', sans-serif;
@@ -135,7 +144,11 @@ body {
     color: #1d1d1d;
     width: 100%;
     height: 100vh;
+    height: -webkit-fill-available;
     position: fixed;
+    /* Extend background to cover status bar area */
+    padding-top: env(safe-area-inset-top);
+    margin: 0;
 }
 
 header {

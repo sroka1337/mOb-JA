@@ -18,6 +18,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
     <link rel="manifest" href="assets/manifest.json">
 
@@ -98,7 +99,7 @@
             pointer-events: none;
         }
 
-        body, html {
+        html {
             height: 100%;
             overscroll-behavior-y: contain;
             padding: 0;
@@ -106,6 +107,20 @@
             font-family: Roboto, sans-serif;
             background: #f5f6fb;
             color: #131419;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+        }
+        body {
+            height: 100%;
+            overscroll-behavior-y: contain;
+            padding: 0;
+            padding-top: env(safe-area-inset-top);
+            margin: 0;
+            font-family: Roboto, sans-serif;
+            background: #f5f6fb;
+            color: #131419;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
         }
 
         a {
@@ -285,3 +300,4 @@
 
 
 </html>
+

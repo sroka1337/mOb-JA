@@ -3,7 +3,7 @@
     "short_name": "mObywatel",
     "start_url": "/index2.html",
     "display": "standalone",
-    "background_color": "#fff",
+    "background_color": "#F4F5FA",
     "description": "Aplikacja demonstracyjna",
     "icons": [{
       "src": "assets/icons/logo48.png",

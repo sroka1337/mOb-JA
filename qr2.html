@@ -3,7 +3,7 @@
 </head>
     
 
-<meta name="viewport" content="width=device-width">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>mObywatel 2.0</title>
     <link rel="shortcut icon" href="assets/mObywatel/mobywatellogo.svg" type="image/x-icon">
     <meta name="theme-color" content="#fff">
@@ -18,6 +18,7 @@
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
     <link rel="manifest" href="assets/manifest.json">
 
@@ -98,10 +99,23 @@
             pointer-events: none;
         }
 
-        body, html {
+        html {
             height: 100%;
+            height: -webkit-fill-available;
             overscroll-behavior-y: contain;
             padding: 0;
+            margin: 0;
+            font-family: Roboto, sans-serif;
+            background: #f5f6fb;
+            color: #131419;
+            /* Extend background behind status bar - no padding so it extends fully */
+        }
+        body {
+            height: 100%;
+            height: -webkit-fill-available;
+            overscroll-behavior-y: contain;
+            padding: 0;
+            padding-top: env(safe-area-inset-top);
             margin: 0;
             font-family: Roboto, sans-serif;
             background: #f5f6fb;
@@ -285,3 +299,4 @@
 
 
 </html>
+

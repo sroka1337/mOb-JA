@@ -14,10 +14,17 @@
     <style>
         html {
             background-color: #fff;
-            /* Extend background to cover status bar area on iPhone */
-            padding-top: env(safe-area-inset-top);
-            min-height: 100vh;
-            min-height: -webkit-fill-available;
+            height: 100%;
+            height: -webkit-fill-available;
+            margin: 0;
+            padding: 0;
+            /* Extend background behind status bar */
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
         }
         body {
             margin: 0;
@@ -25,6 +32,9 @@
             padding-top: env(safe-area-inset-top);
             overflow: hidden;
             background-color: #fff;
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            width: 100%;
         }
         iframe {
             width: 100%;

@@ -21,11 +21,14 @@
         body {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
+            touch-action: pan-y;
+            -webkit-overflow-scrolling: touch;
         }
         
         html {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
+            touch-action: pan-y;
         }
 
         .navbar {
@@ -196,6 +199,55 @@
         }
     </style><link rel="stylesheet" href="assets/css/dowodnowy.css">
 <script src="assets/mObywatel/jquery-3.6.0.min.js"></script>
+<script>
+    // Prevent iOS bounce/rubber-band scrolling
+    (function() {
+        var lastTouchY = 0;
+        var isScrolling = false;
+        
+        document.addEventListener('touchstart', function(e) {
+            lastTouchY = e.touches[0].clientY;
+        }, { passive: false });
+        
+        document.addEventListener('touchmove', function(e) {
+            var touchY = e.touches[0].clientY;
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            var clientHeight = document.documentElement.clientHeight || window.innerHeight;
+            
+            // Prevent scrolling past top
+            if (scrollTop <= 0 && touchY > lastTouchY) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Prevent scrolling past bottom
+            if (scrollTop + clientHeight >= scrollHeight && touchY < lastTouchY) {
+                e.preventDefault();
+                return false;
+            }
+            
+            lastTouchY = touchY;
+        }, { passive: false });
+        
+        // Prevent overscroll on scroll events
+        document.addEventListener('scroll', function(e) {
+            var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight || document.body.scrollHeight;
+            var clientHeight = document.documentElement.clientHeight || window.innerHeight;
+            
+            // Prevent overscroll at top
+            if (scrollTop < 0) {
+                window.scrollTo(0, 0);
+            }
+            
+            // Prevent overscroll at bottom
+            if (scrollTop + clientHeight > scrollHeight) {
+                window.scrollTo(0, scrollHeight - clientHeight);
+            }
+        }, { passive: true });
+    })();
+</script>
 <style>
     @media screen and (orientation: portrait) {
         body {
@@ -207,6 +259,23 @@
         overscroll-behavior: none !important;
         overscroll-behavior-y: none !important;
         overscroll-behavior-x: none !important;
+        position: relative;
+        height: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* iOS specific fixes */
+    @supports (-webkit-touch-callout: none) {
+        body {
+            position: relative;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
     }
 </style>
 </head>

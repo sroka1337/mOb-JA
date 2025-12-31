@@ -21,14 +21,28 @@
         body {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
-            touch-action: pan-y;
-            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y !important;
         }
         
         html {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
-            touch-action: pan-y;
+        }
+        
+        /* iOS specific - prevent rubber band */
+        @supports (-webkit-touch-callout: none) {
+            html {
+                height: 100%;
+                overflow: hidden;
+            }
+            
+            body {
+                position: relative;
+                height: 100%;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
         }
 
         .navbar {
@@ -199,116 +213,6 @@
         }
     </style><link rel="stylesheet" href="assets/css/dowodnowy.css">
 <script src="assets/mObywatel/jquery-3.6.0.min.js"></script>
-<script>
-    // Subtle rubber band effect with limited overscroll
-    (function() {
-        var maxOverscroll = 40; // Maximum pixels to allow overscroll
-        var overscrollAmount = 0;
-        var startY = 0;
-        var lastY = 0;
-        var body = document.body;
-        var isDragging = false;
-        
-        // Add smooth transition for snap back
-        body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        
-        function handleTouchStart(e) {
-            startY = e.touches[0].clientY;
-            lastY = startY;
-            overscrollAmount = 0;
-            isDragging = true;
-            body.style.transition = 'none'; // Disable transition during drag
-        }
-        
-        function handleTouchMove(e) {
-            if (!isDragging) return;
-            
-            var currentY = e.touches[0].clientY;
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var scrollHeight = document.documentElement.scrollHeight;
-            var clientHeight = window.innerHeight;
-            var isScrollingDown = currentY < lastY;
-            var isScrollingUp = currentY > lastY;
-            var isAtBottom = scrollTop + clientHeight >= scrollHeight - 2;
-            var isAtTop = scrollTop <= 2;
-            
-            // Only handle overscroll when at boundaries
-            if (isAtBottom && isScrollingDown) {
-                // Allow subtle overscroll at bottom
-                var delta = (lastY - currentY) * 0.5;
-                overscrollAmount = Math.min(overscrollAmount + delta, maxOverscroll);
-                if (overscrollAmount > 0) {
-                    body.style.transform = 'translateY(' + (-overscrollAmount) + 'px)';
-                    e.preventDefault();
-                }
-            } else if (isAtBottom && isScrollingUp && overscrollAmount > 0) {
-                // Reduce overscroll when scrolling back up from bottom
-                var delta = (currentY - lastY) * 0.5;
-                overscrollAmount = Math.max(overscrollAmount - delta, 0);
-                body.style.transform = 'translateY(' + (-overscrollAmount) + 'px)';
-                if (overscrollAmount <= 0) {
-                    body.style.transform = 'translateY(0)';
-                }
-                e.preventDefault();
-            } else if (isAtTop && isScrollingUp) {
-                // Allow subtle overscroll at top
-                var delta = (currentY - lastY) * 0.5;
-                overscrollAmount = Math.min(overscrollAmount + delta, maxOverscroll);
-                if (overscrollAmount > 0) {
-                    body.style.transform = 'translateY(' + overscrollAmount + 'px)';
-                    e.preventDefault();
-                }
-            } else if (isAtTop && isScrollingDown && overscrollAmount > 0) {
-                // Reduce overscroll when scrolling back down from top
-                var delta = (lastY - currentY) * 0.5;
-                overscrollAmount = Math.max(overscrollAmount - delta, 0);
-                body.style.transform = 'translateY(' + overscrollAmount + 'px)';
-                if (overscrollAmount <= 0) {
-                    body.style.transform = 'translateY(0)';
-                }
-                e.preventDefault();
-            } else {
-                // Normal scrolling - reset any overscroll
-                if (overscrollAmount > 0) {
-                    overscrollAmount = 0;
-                    body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                    body.style.transform = 'translateY(0)';
-                }
-            }
-            
-            lastY = currentY;
-        }
-        
-        function handleTouchEnd(e) {
-            isDragging = false;
-            body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            if (overscrollAmount > 0) {
-                // Snap back smoothly
-                overscrollAmount = 0;
-                body.style.transform = 'translateY(0)';
-            }
-        }
-        
-        document.addEventListener('touchstart', handleTouchStart, { passive: true });
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-        document.addEventListener('touchend', handleTouchEnd, { passive: true });
-        document.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-        
-        // Prevent actual scroll beyond boundaries
-        window.addEventListener('scroll', function() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var scrollHeight = document.documentElement.scrollHeight;
-            var clientHeight = window.innerHeight;
-            
-            if (scrollTop < 0) {
-                window.scrollTo(0, 0);
-            }
-            if (scrollTop + clientHeight > scrollHeight) {
-                window.scrollTo(0, scrollHeight - clientHeight);
-            }
-        }, { passive: true });
-    })();
-</script>
 <style>
     @media screen and (orientation: portrait) {
         body {
@@ -320,25 +224,89 @@
         overscroll-behavior: none !important;
         overscroll-behavior-y: none !important;
         overscroll-behavior-x: none !important;
-        position: relative;
-        height: 100%;
-        overflow-x: hidden;
+        touch-action: pan-y !important;
+        -webkit-overflow-scrolling: touch;
     }
     
     /* iOS specific fixes */
     @supports (-webkit-touch-callout: none) {
-        body {
-            position: relative;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
         html {
             height: 100%;
             overflow: hidden;
         }
+        
+        body {
+            position: relative;
+            width: 100%;
+            min-height: 100%;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
     }
 </style>
+<script>
+    // Prevent iOS rubber band scrolling
+    (function() {
+        var lastTouchY = 0;
+        var scrollable = true;
+        
+        function preventRubberBand(e) {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight;
+            var clientHeight = window.innerHeight;
+            var isAtTop = scrollTop === 0;
+            var isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+            
+            var touchY = e.touches ? e.touches[0].clientY : e.clientY;
+            var touchDeltaY = touchY - lastTouchY;
+            
+            // Prevent overscroll at top
+            if (isAtTop && touchDeltaY > 0) {
+                e.preventDefault();
+                return false;
+            }
+            
+            // Prevent overscroll at bottom
+            if (isAtBottom && touchDeltaY < 0) {
+                e.preventDefault();
+                return false;
+            }
+            
+            lastTouchY = touchY;
+        }
+        
+        // Prevent scroll beyond boundaries
+        function preventOverscroll() {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight;
+            var clientHeight = window.innerHeight;
+            
+            if (scrollTop < 0) {
+                window.scrollTo(0, 0);
+            }
+            if (scrollTop + clientHeight > scrollHeight) {
+                window.scrollTo(0, scrollHeight - clientHeight);
+            }
+        }
+        
+        // Add event listeners
+        document.addEventListener('touchstart', function(e) {
+            lastTouchY = e.touches[0].clientY;
+        }, { passive: true });
+        
+        document.addEventListener('touchmove', preventRubberBand, { passive: false });
+        
+        window.addEventListener('scroll', preventOverscroll, { passive: true });
+        
+        // Prevent pull-to-refresh
+        document.body.addEventListener('touchmove', function(e) {
+            if (window.pageYOffset === 0 && e.touches[0].clientY > 0) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    })();
+</script>
 </head>
 <body class="">
     <header>

@@ -21,14 +21,11 @@
         body {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
-            touch-action: pan-y;
-            -webkit-overflow-scrolling: touch;
         }
         
         html {
             overscroll-behavior: none !important;
             overscroll-behavior-y: none !important;
-            touch-action: pan-y;
         }
 
         .navbar {
@@ -199,120 +196,6 @@
         }
     </style><link rel="stylesheet" href="assets/css/dowodnowy.css">
 <script src="assets/mObywatel/jquery-3.6.0.min.js"></script>
-<script>
-    // Subtle rubber band effect with limited overscroll
-    (function() {
-        var maxOverscroll = 40; // Maximum pixels to allow overscroll
-        var isOverscrolling = false;
-        var overscrollAmount = 0;
-        var startY = 0;
-        var lastY = 0;
-        var body = document.body;
-        
-        // Add smooth transition for snap back
-        body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-        
-        function handleTouchStart(e) {
-            startY = e.touches[0].clientY;
-            lastY = startY;
-            isOverscrolling = false;
-            overscrollAmount = 0;
-            body.style.transition = 'none'; // Disable transition during drag
-        }
-        
-        function handleTouchMove(e) {
-            var currentY = e.touches[0].clientY;
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var scrollHeight = document.documentElement.scrollHeight;
-            var clientHeight = window.innerHeight;
-            var deltaY = currentY - lastY;
-            var isScrollingDown = currentY < lastY;
-            var isScrollingUp = currentY > lastY;
-            
-            // Check if at bottom boundary
-            if (scrollTop + clientHeight >= scrollHeight - 1) {
-                if (isScrollingDown) {
-                    // Allow subtle overscroll at bottom
-                    overscrollAmount = Math.min(overscrollAmount + (lastY - currentY) * 0.5, maxOverscroll);
-                    if (overscrollAmount > 0) {
-                        isOverscrolling = true;
-                        body.style.transform = 'translateY(' + (-overscrollAmount) + 'px)';
-                        e.preventDefault();
-                    }
-                } else if (isScrollingUp && overscrollAmount > 0) {
-                    // Reduce overscroll when scrolling back up
-                    overscrollAmount = Math.max(overscrollAmount - (currentY - lastY) * 0.5, 0);
-                    body.style.transform = 'translateY(' + (-overscrollAmount) + 'px)';
-                    if (overscrollAmount <= 0) {
-                        isOverscrolling = false;
-                        body.style.transform = 'translateY(0)';
-                    }
-                    e.preventDefault();
-                }
-            }
-            // Check if at top boundary
-            else if (scrollTop <= 1) {
-                if (isScrollingUp) {
-                    // Allow subtle overscroll at top
-                    overscrollAmount = Math.min(overscrollAmount + (currentY - lastY) * 0.5, maxOverscroll);
-                    if (overscrollAmount > 0) {
-                        isOverscrolling = true;
-                        body.style.transform = 'translateY(' + overscrollAmount + 'px)';
-                        e.preventDefault();
-                    }
-                } else if (isScrollingDown && overscrollAmount > 0) {
-                    // Reduce overscroll when scrolling back down
-                    overscrollAmount = Math.max(overscrollAmount - (lastY - currentY) * 0.5, 0);
-                    body.style.transform = 'translateY(' + overscrollAmount + 'px)';
-                    if (overscrollAmount <= 0) {
-                        isOverscrolling = false;
-                        body.style.transform = 'translateY(0)';
-                    }
-                    e.preventDefault();
-                }
-            } else {
-                // Reset if scrolling in middle
-                if (overscrollAmount > 0) {
-                    overscrollAmount = 0;
-                    body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                    body.style.transform = 'translateY(0)';
-                    isOverscrolling = false;
-                }
-            }
-            
-            lastY = currentY;
-        }
-        
-        function handleTouchEnd(e) {
-            body.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-            if (overscrollAmount > 0) {
-                // Snap back smoothly
-                overscrollAmount = 0;
-                body.style.transform = 'translateY(0)';
-                isOverscrolling = false;
-            }
-        }
-        
-        document.addEventListener('touchstart', handleTouchStart, { passive: true });
-        document.addEventListener('touchmove', handleTouchMove, { passive: false });
-        document.addEventListener('touchend', handleTouchEnd, { passive: true });
-        document.addEventListener('touchcancel', handleTouchEnd, { passive: true });
-        
-        // Prevent actual scroll beyond boundaries
-        window.addEventListener('scroll', function() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var scrollHeight = document.documentElement.scrollHeight;
-            var clientHeight = window.innerHeight;
-            
-            if (scrollTop < 0) {
-                window.scrollTo(0, 0);
-            }
-            if (scrollTop + clientHeight > scrollHeight) {
-                window.scrollTo(0, scrollHeight - clientHeight);
-            }
-        }, { passive: true });
-    })();
-</script>
 <style>
     @media screen and (orientation: portrait) {
         body {
@@ -324,23 +207,6 @@
         overscroll-behavior: none !important;
         overscroll-behavior-y: none !important;
         overscroll-behavior-x: none !important;
-        position: relative;
-        height: 100%;
-        overflow-x: hidden;
-    }
-    
-    /* iOS specific fixes */
-    @supports (-webkit-touch-callout: none) {
-        body {
-            position: relative;
-            overflow-y: auto;
-            -webkit-overflow-scrolling: touch;
-        }
-        
-        html {
-            height: 100%;
-            overflow: hidden;
-        }
     }
 </style>
 </head>

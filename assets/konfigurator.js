@@ -1,57 +1,48 @@
-// List of all required field IDs
-var requiredFields = ["name", "surname", "sex", "nationality", "birthday", "pesel", "familyName", 
-                      "fathersFamilyName", "mothersFamilyName", "birthPlace", "adress1", "adress2", 
-                      "city", "checkInDate"];
-
-// Check if all required data is saved in localStorage
-function isConfigurationComplete() {
-    // First check if configurationComplete flag exists
-    if (localStorage.getItem("configurationComplete") === "true") {
-        // Double-check that all required data still exists
-        if (!localStorage.getItem("photo")) {
-            return false;
-        }
-        
-        for (var i = 0; i < requiredFields.length; i++) {
-            var value = localStorage.getItem(requiredFields[i]);
-            if (!value || value.trim() === "") {
-                return false;
-            }
-        }
-        
+// Check if configuration is already complete on page load
+function checkIfConfigured() {
+    // Check photo separately (it's a base64 string)
+    const photo = localStorage.getItem('photo');
+    if (!photo || photo.trim() === '') {
+        return false;
+    }
+    
+    // List of all required text fields
+    const requiredFields = [
+        'name',
+        'surname',
+        'sex',
+        'nationality',
+        'birthday',
+        'pesel',
+        'familyName',
+        'fathersFamilyName',
+        'mothersFamilyName',
+        'birthPlace',
+        'adress1',
+        'adress2',
+        'city',
+        'checkInDate'
+    ];
+    
+    // Check if all required fields exist in localStorage
+    const allFieldsPresent = requiredFields.every(field => {
+        const value = localStorage.getItem(field);
+        return value !== null && value.trim() !== '';
+    });
+    
+    // If all fields are present, redirect to index2.html
+    if (allFieldsPresent) {
+        location.href = "index2.html";
         return true;
     }
     
     return false;
 }
 
-// Load saved data into form fields
-function loadSavedData() {
-    // Load photo if it exists
-    var savedPhoto = localStorage.getItem("photo");
-    if (savedPhoto) {
-        var upload = document.querySelector(".upload");
-        upload.setAttribute("selected", savedPhoto);
-        upload.classList.add("upload_loaded");
-        upload.querySelector(".upload_uploaded").src = savedPhoto;
-    }
-    
-    // Load all input fields
-    document.querySelectorAll(".input_holder").forEach((element) => {
-        var input = element.querySelector(".input");
-        if (input && input.id) {
-            var savedValue = localStorage.getItem(input.id);
-            if (savedValue) {
-                input.value = savedValue;
-            }
-        }
-    });
-}
-
-// Check on page load if configuration is complete
-if (isConfigurationComplete()) {
-    // Redirect to main app if configuration is complete
-    location.href = "index2.html";
+// Run check on page load
+if (checkIfConfigured()) {
+    // Exit early if redirecting
+    // The rest of the code won't run
 }
 
 var upload = document.querySelector(".upload");
@@ -60,8 +51,22 @@ var imageInput = document.createElement("input");
 imageInput.type = "file";
 imageInput.accept = ".jpeg,.png,.gif";
 
-// Load saved data into form (in case user wants to edit)
-loadSavedData();
+// Restore saved photo if it exists
+var savedPhoto = localStorage.getItem("photo");
+if (savedPhoto) {
+    upload.setAttribute("selected", savedPhoto);
+    upload.classList.add("upload_loaded");
+    upload.querySelector(".upload_uploaded").src = savedPhoto;
+}
+
+// Restore saved input values
+document.querySelectorAll(".input_holder").forEach((element) => {
+    var input = element.querySelector(".input");
+    var savedValue = localStorage.getItem(input.id);
+    if (savedValue) {
+        input.value = savedValue;
+    }
+});
 
 document.querySelectorAll(".input_holder").forEach((element) => {
 
@@ -135,8 +140,6 @@ document.querySelector(".go").addEventListener('click', () => {
     if (empty.length != 0){
         empty[0].scrollIntoView();
     }else{
-        // Mark configuration as complete
-        localStorage.setItem("configurationComplete", "true");
         forwardToId();
     }
 

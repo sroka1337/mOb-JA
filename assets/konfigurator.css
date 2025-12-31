@@ -66,11 +66,6 @@
 
 html{
     scroll-behavior: smooth;
-    height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
 }
 
 .top_holder{
@@ -173,13 +168,6 @@ html{
 
 body{
     background-color: white;
-    height: auto;
-    min-height: 100%;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    position: relative;
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
 }
 
 .go{
